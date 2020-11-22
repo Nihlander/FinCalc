@@ -9,8 +9,8 @@ struct Payment {
 	float fValue;
 };
 
-std::list<struct Payment> oPayments;
-std::list<struct Payment>::iterator it;
+std::vector<struct Payment> oPayments;
+std::vector<struct Payment>::iterator it;
 
 void MainMenu() {
 	std::cout << "\n --- Options ---\n";
@@ -125,9 +125,9 @@ void UpdatePayments() {
 }
 
 void ListPayments() {
-	it = oPayments.begin();
+	it = std::begin(oPayments);
 	std::cout << "\n== Scheduled Payments ==\n";
-	while (it != oPayments.end()) {
+	while (it != std::end(oPayments)) {
 		std::cout << "| " << it->sName << " | " << it->sDirection << " | " << it->fValue << " |\n";
 		it++;
 	}
