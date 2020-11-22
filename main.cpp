@@ -53,8 +53,9 @@ bool ValidatePaymentId(int iId) {
 void PaymentsMenu() {
         std::cout << "\n----- Payments: Menu -----\n";
         std::cout << "  1 - Add Payment\n";
-        std::cout << "  2 - Update Payment\n";
+        std::cout << "  2 - Edit Payment\n";
         std::cout << "  3 - Delete Payment\n";
+	std::cout << "\n  4 - List Payments\n";
         std::cout << "\n  0 - Back\n";
 }
 
@@ -151,6 +152,9 @@ void UpdatePayments() {
 			break;
 		case 3:
 			DeletePayment();
+			break;
+		case 4:
+			ListPayments();
 			break;
 		default:
 			std::cout << "\n[!] Unrecognised option.\n";
