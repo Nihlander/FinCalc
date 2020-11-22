@@ -130,6 +130,48 @@ void EditPaymentName() {
 	}
 }
 
+void EditPaymentDirection() {
+	bool bInputValid;
+	std::cout << "\n== New Payment Direction ==\n";
+        std::cout << "  <1> Inbound\n";
+        std::cout << "  <2> Outbound\n";
+        std::cout << "\n  <0> Back\n";
+	do {
+        	switch(GetOption()) {
+        	        case 0:
+				bInputValid = true;
+        	                return;
+        	        case 1:
+        	                bInputValid = true;
+        	                it->sDirection = "inbound";
+        	                break;
+        	        case 2:
+        	                bInputValid = true;
+        	                it->sDirection = "outbound";
+        	                break;
+        	        default:
+		                bInputValid = false;
+        			std::cout << "\n[!] Unrecognised option.\n";
+        			break;
+		}
+	} while (!bInputValid);
+}
+
+void EditPaymentValue() {
+	bool bInputValid;
+	std::string sValue;
+	float fValue;
+	do {
+		std::cout << "Enter new value: ";
+		std::cin >> sValue;
+		if (ValidatePaymentValue(sValue)) {
+			bInputValid = true;
+			fValue = std::stof(sValue);
+			it->fValue = fValue;
+		} else { bInputValid = false; }
+	} while (!bInputValid);
+}
+
 void EditPayment() {
 	int iId;
 	bool bInputValid;
@@ -148,16 +190,15 @@ void EditPayment() {
 			std::cout << "[0] Back";
 			switch (GetOption()) {
 				case 0:
-					bInputValid = true;
 					break;
 				case 1:
 					EditPaymentName();
 					break;
 				case 2:
-					std::cout << "[~] Function not yet implemented.";
+					EditPaymentDirection();
 					break;
 				case 3:
-					std::cout << "[~] Function not yet implemented.";
+					EditPaymentValue();
 					break;
 				default:
 					std::cout << "\n[!] Unrecognised option.\n";
