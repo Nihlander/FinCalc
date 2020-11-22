@@ -24,8 +24,8 @@ int GetOption() {
 	std::string sOpt = "";
 	std::cout << "\nSelect > ";
 	std::cin >> sOpt;
-	std::regex rgxMainMenu("^[0-9]$");
-	if (std::regex_match(sOpt, rgxMainMenu)) {
+	std::regex rgxId("^[0-9]{1,3}$");
+	if (std::regex_match(sOpt, rgxId)) {
 		return std::stoi(sOpt);
 	} else { return 37707; }
 }
@@ -44,12 +44,28 @@ bool ValidatePaymentValue(std::string sValue) {
         } else { return false; }
 }
 
+bool ValidatePaymentId(int iId) {
+	if (0 <= iId && iId < oPayments.size()) {
+		return true;
+        } else { return false; }
+}
+
 void PaymentsMenu() {
         std::cout << "\n----- Payments: Menu -----\n";
         std::cout << "  1 - Add Payment\n";
         std::cout << "  2 - Update Payment\n";
         std::cout << "  3 - Delete Payment\n";
         std::cout << "\n  0 - Back\n";
+}
+
+void ListPayments() {
+        it = std::begin(oPayments);
+        std::cout << "\n== Scheduled Payments ==\n";
+        std::cout << "| ID | Name | Direction | Amount |\n";
+        while (it != std::end(oPayments)) {
+                std::cout << "| " << it - oPayments.begin() << " | " << it->sName << " | " << it->sDirection << " | " << it->fValue << " |\n";
+                it++;
+        }
 }
 
 void AddPayment() {
@@ -104,6 +120,24 @@ void AddPayment() {
 	oPayments.push_back(oPayment);
 }
 
+void DeletePayment() {
+	int iId;
+	bool bInputValid;
+	ListPayments();
+	do {
+		iId = GetOption();
+		if (ValidatePaymentId(iId)) {
+			bInputValid = true;
+			it = oPayments.begin() + iId;
+			std::cout << "Payment '" << it->sName << "' deleted.\n";
+			oPayments.erase(it);
+		} else {
+			bInputValid = false;
+			std::cout << "[!] Payment ID Invalid.\n";
+		}
+	} while (!bInputValid);
+}
+
 void UpdatePayments() {
 	PaymentsMenu();
 	switch (GetOption()) {
@@ -116,20 +150,11 @@ void UpdatePayments() {
 			std::cout << "[~] Function not yet implemented.\n";
 			break;
 		case 3:
-			std::cout << "[~] Function not yet implemented.\n";
+			DeletePayment();
 			break;
 		default:
 			std::cout << "\n[!] Unrecognised option.\n";
 			break;
-	}
-}
-
-void ListPayments() {
-	it = std::begin(oPayments);
-	std::cout << "\n== Scheduled Payments ==\n";
-	while (it != std::end(oPayments)) {
-		std::cout << "| " << it->sName << " | " << it->sDirection << " | " << it->fValue << " |\n";
-		it++;
 	}
 }
 
