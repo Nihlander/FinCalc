@@ -121,6 +121,52 @@ void AddPayment() {
 	oPayments.push_back(oPayment);
 }
 
+void EditPaymentName() {
+	std::string sName;
+	std::cout << "\nEnter new name: ";
+	std::cin >> sName;
+	if (ValidatePaymentName(sName)) {
+		it->sName = sName;
+	}
+}
+
+void EditPayment() {
+	int iId;
+	bool bInputValid;
+	ListPayments();
+	do {
+		iId = GetOption();
+		if (ValidatePaymentId(iId)) {
+			bInputValid = true;
+			it = oPayments.begin() + iId;
+			std::cout << "=== Edit ===\n";
+			std::cout << "Payment ID:  " << iId << std::endl;
+			std::cout << "[1] Name (" << it->sName << ")\n";
+			std::cout << "[2] Direction (" << it->sDirection << ")\n";
+			std::cout << "[3] Value (" << it->fValue << ")\n";
+			std::cout << "----------\n";
+			std::cout << "[0] Back";
+			switch (GetOption()) {
+				case 0:
+					bInputValid = true;
+					break;
+				case 1:
+					EditPaymentName();
+					break;
+				case 2:
+					std::cout << "[~] Function not yet implemented.";
+					break;
+				case 3:
+					std::cout << "[~] Function not yet implemented.";
+					break;
+				default:
+					std::cout << "\n[!] Unrecognised option.\n";
+					break;
+			}
+		} else { bInputValid = false; }
+	} while (!bInputValid);
+}
+
 void DeletePayment() {
 	int iId;
 	bool bInputValid;
@@ -148,7 +194,7 @@ void UpdatePayments() {
 			AddPayment();
 			break;
 		case 2:
-			std::cout << "[~] Function not yet implemented.\n";
+			EditPayment();
 			break;
 		case 3:
 			DeletePayment();
